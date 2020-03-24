@@ -4,7 +4,7 @@ extern crate regex;
 use regex::Regex;
 use counter::Counter;
 /*
-This function will remove all unnecessary chars from the input file i.e  punctuation, digits and some spanish chars
+The stripfile function will remove all unnecessary chars from the input file i.e  punctuation, digits and some spanish chars
 It will also turn the input text all lowercase
 
 */
@@ -17,7 +17,10 @@ fn stripfile(mut input_file: File) ->  std::string::String
     contents.into_owned()
 
 }
+/*
+The main function
 
+*/
 fn main() {
 
     let input_path = ::std::env::args().nth(1).unwrap(); // Getting input file

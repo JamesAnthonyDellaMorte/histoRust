@@ -1,22 +1,9 @@
 use std::io::prelude::*;
 use std::fs::File;
-extern crate regex;
-use regex::Regex;
+mod stripfile;
+use stripfile::stripfile;
 use counter::Counter;
-/*
-The stripfile function will remove all unnecessary chars from the input file i.e  punctuation, digits and some spanish chars
-It will also turn the input text all lowercase
 
-*/
-fn stripfile(mut input_file: File) ->  std::string::String
-{   let mut contents = String::new();
-    let strip_misc = Regex::new(r"[[:punct:][:digit:][¿¡]]").unwrap();
-    input_file.read_to_string(&mut contents).unwrap();
-    contents.make_ascii_lowercase();
-    let contents = strip_misc.replace_all(&contents,"");
-    contents.into_owned()
-
-}
 /*
 The main function
 
@@ -24,9 +11,7 @@ The main function
 fn main() {
 
     let input_path = ::std::env::args().nth(1).expect("No file found"); // Getting input file
-
     let input_file =  File::open(&input_path).expect(&format!("Could not open file {}", input_path));
-
     let mut output_file = File::create("output.txt").expect("Could not create output file");
     let contents = stripfile(input_file);
     let words = &contents.split_whitespace().collect::<Counter<_>>().most_common(); // Organizing data into a Counter collection

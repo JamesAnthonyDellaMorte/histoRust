@@ -10,7 +10,7 @@ It will also turn the input text all lowercase
 */
 pub fn stripfile(mut input_file: File) ->  std::string::String
 {   let mut contents = String::new();
-    let strip_misc = Regex::new(r"[[:punct:][:digit:][¿¡\n]]").unwrap();
+    let strip_misc = Regex::new(r"[[:punct:][:digit:][\r¿¡\n]]").unwrap();
     input_file.read_to_string(&mut contents).unwrap();
     contents.make_ascii_lowercase();
     let contents = strip_misc.replace_all(&contents,"");

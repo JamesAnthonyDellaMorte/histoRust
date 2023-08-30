@@ -39,9 +39,15 @@ fn main() {
             *word_count.entry(word).or_insert(0) += 1;
         }
 
+        // Sort the HashMap by frequency (value), in descending order
+        let mut word_count_vec: Vec<(&str, usize)> =
+            word_count.iter().map(|(k, v)| (*k, *v)).collect();
+
+        word_count_vec.sort_by(|a, b| b.1.cmp(&a.1));
+
         // Translate the organized words
         let mut translated_organized_words = String::new();
-        for word in word_count.keys() {
+        for (word, _) in &word_count_vec {
             translated_organized_words += &(word.to_string() + "\n");
         }
 
@@ -50,12 +56,13 @@ fn main() {
             let vector_translated_organized_words: Vec<_> =
                 translated_organized_words.split('\n').collect();
 
-            for (ele, ele2) in word_count
+            for ((word, count), translated_word) in word_count_vec
                 .iter()
                 .zip(vector_translated_organized_words.iter())
             {
-                write!(output_file, "{:?} ", ele).expect("Could not write to file");
-                writeln!(output_file, "{:?}", ele2).expect("Could not write to file");
+                write!(output_file, "({:?}, ", word).expect("Could not write to file");
+                write!(output_file, "{:?})", count).expect("Could not write to file");
+                writeln!(output_file, " {:?}", translated_word).expect("Could not write to file");
             }
 
             let unique_words = word_count.len();
